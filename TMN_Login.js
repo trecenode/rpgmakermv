@@ -1,5 +1,6 @@
 //=============================================================================
 // TMN_Login.js
+// https://13node.com/rmmv-pantalla-de-login-con-api/
 //=============================================================================
 
 /*:
@@ -13,6 +14,8 @@
  * @default https://13node.com
  * @desc Select the URL for the login endpoint
  */
+var loggedInUserEmail = null;
+
 (function() {
     var parameters = PluginManager.parameters('TMN_Login');
     var loginURL = String(parameters['Login URL']);
@@ -54,7 +57,7 @@
     
         this._usernameInput = new Window_LoginInput(centerX - 120, centerY - 60, '');
         if (this._usernameInput) {
-            console.log("Username input created.");
+            //console.log("Username input created.");
             this.addChild(this._usernameInput);
             this._usernameInput.setClickHandler(() => {
                 this.setActiveInput(this._usernameInput);
@@ -65,7 +68,7 @@
     
         this._passwordInput = new Window_LoginInput(centerX - 120, centerY, '', true);
         if (this._passwordInput) {
-            console.log("Password input created.");
+            //console.log("Password input created.");
             this.addChild(this._passwordInput);
             this._passwordInput.setClickHandler(() => {
                 this.setActiveInput(this._passwordInput);
@@ -76,7 +79,7 @@
     
         this._loginButton = new Window_CommandLogin(centerX - 120, centerY + 60);
         if (this._loginButton) {
-            console.log("Login button created.");
+            //console.log("Login button created.");
             this._loginButton.setHandler('login', this.performLogin.bind(this));
             this.addChild(this._loginButton);
         } else {
@@ -97,7 +100,6 @@
         const username = this._usernameInput.text();
         const password = this._passwordInput.text();
 
-        // Call your API for login
         fetch(loginURL, {
             method: 'POST',
             headers: {
@@ -108,14 +110,15 @@
         .then(response => response.json())
         .then(response => {
             if (response.code === 200) {
-                // alert(response.message); // Show success message
+                loggedInUserEmail = username;
+                // alert(response.message);
                 SceneManager.goto(Scene_Title);
             } else {
                 alert('Login failed. Please try again.');
                 this._loginButton.activate(); 
             }
         }).catch(error => {
-            console.error("Login failed:", error);
+            //console.error("Login failed:", error);
             alert('Error during login. Please try again.');
             this._loginButton.activate(); 
         });
@@ -190,7 +193,7 @@
     };
     
     Window_LoginInput.prototype.processOk = function() {
-        // Handle OK input (e.g., confirm input)
+        // OK input
     };
     
     Window_LoginInput.prototype.processBackspace = function() {
@@ -201,7 +204,7 @@
     };
     
     Window_LoginInput.prototype.processCancel = function() {
-        // Handle cancel input (e.g., clear input)
+        // Cancel input
     };
     
     Window_LoginInput.prototype.update = function() {
