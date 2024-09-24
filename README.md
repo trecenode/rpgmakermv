@@ -2,8 +2,14 @@
 
 ## Plugins List
 
+### TMN_Basic.js
+TMN_Basic.js is a collection of basic and useful functions for RMMV.
+
 ### TMN_Login.js
 TMN_Login.js is a plugin for creating an API Login before the title window.
+
+### TMN_Saveapi.js
+TMN_Saveapi.js allow you to save and load the game via API. Requires TMN_Login.js enabled first.
 
 # Terms Of Use
 
